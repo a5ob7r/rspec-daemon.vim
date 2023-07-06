@@ -8,11 +8,15 @@ augroup RSPEC-DAEMON
 augroup END
 
 function! s:define_commands() abort
-  command! -buffer RunRspec call s:run_rspec(expand('%'))
+  command! -buffer -bang RunRspec call s:run_rspec(expand('%'), <bang>0)
 endfunction
 
-function! s:make_request(file) abort
-  return a:file
+function! s:make_request(file, on_line) abort
+  if a:on_line
+    return printf('%s:%s', a:file, line('.'))
+  else
+    return a:file
+  endif
 endfunction
 
 " TODO: Send a request using "+job".
@@ -22,8 +26,8 @@ function! s:send_request(request) abort
   call system(l:cmd)
 endfunction
 
-function! s:run_rspec(file) abort
-  let l:request = s:make_request(a:file)
+function! s:run_rspec(file, on_line) abort
+  let l:request = s:make_request(a:file, a:on_line)
 
   call s:send_request(l:request)
 endfunction
