@@ -30,17 +30,11 @@ function! s:send_request(request) abort
 endfunction
 
 function! s:run_rspec(on_line, ...) abort
-  if a:0 > 0
-    for l:file in a:000
-      let l:request = s:make_request(0, l:file)
+  let l:request = a:0 > 0
+    \ ? s:make_request(0, join(a:000))
+    \ : s:make_request(a:on_line, expand('%'))
 
-      call s:send_request(l:request)
-    endfor
-  else
-    let l:request = s:make_request(a:on_line, expand('%'))
-
-    call s:send_request(l:request)
-  endif
+  call s:send_request(l:request)
 endfunction
 
 " vim: set tabstop=2 shiftwidth=2 expandtab :
