@@ -22,6 +22,7 @@ function! s:make_request(file, on_line) abort
 endfunction
 
 " TODO: Send a request using "+job".
+" TODO: Send a request using "+channel".
 function! s:send_request(request) abort
   let l:cmd = printf('echo %s | socat - TCP4:%s:%s', shellescape(a:request), shellescape(s:host), shellescape(s:port))
 
