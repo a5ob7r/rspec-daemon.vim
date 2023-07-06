@@ -1,3 +1,5 @@
+" This requires "socat" to communicate with rspec-daemon.
+
 let s:host = '0.0.0.0'
 let s:port = 3002
 
@@ -21,7 +23,7 @@ endfunction
 
 " TODO: Send a request using "+job".
 function! s:send_request(request) abort
-  let l:cmd = printf('echo %s | nc -N %s %s', shellescape(a:request), shellescape(s:host), shellescape(s:port))
+  let l:cmd = printf('echo %s | socat - TCP4:%s:%s', shellescape(a:request), shellescape(s:host), shellescape(s:port))
 
   call system(l:cmd)
 endfunction
