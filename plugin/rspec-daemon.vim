@@ -71,11 +71,9 @@ function! s:watch_and_run_rspec(on_line) abort
 endfunction
 
 function! s:unwatch_and_run_rspec() abort
-  try
-    augroup! WATCH_AND_RUN_RSPEC
-  catch /^Vim\%((\a\+)\)\=:E367:/
-    " Ignore even if no the autocommand group.
-  endtry
+  augroup WATCH_AND_RUN_RSPEC
+    autocmd!
+  augroup END
 endfunction
 
 " vim: set tabstop=2 shiftwidth=2 expandtab :
