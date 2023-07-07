@@ -28,7 +28,7 @@ endfunction
 function! s:send_request(request) abort
   let l:cmd = printf('echo %s | socat - TCP4:%s:%s', shellescape(a:request), shellescape(s:host), shellescape(s:port))
 
-  call system(l:cmd)
+  call job_start(['sh', '-c', l:cmd])
 endfunction
 
 function! s:run_rspec(on_line, ...) abort
