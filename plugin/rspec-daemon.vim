@@ -5,7 +5,7 @@ let s:port = 3002
 
 augroup RSPEC-DAEMON
   autocmd!
-  autocmd FileType rspec.ruby call s:define_commands()
+  autocmd FileType ruby,rspec.ruby call s:define_commands()
   autocmd BufRead,BufNewFile *_spec.rb call s:define_commands()
 augroup END
 
