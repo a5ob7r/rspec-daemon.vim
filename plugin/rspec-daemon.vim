@@ -1,7 +1,5 @@
 " This requires "nc" or "socat" to communicate with rspec-daemon.
 
-let s:host = '0.0.0.0'
-let s:port = 3002
 let s:cmdfmt =
   \ has('osxdarwin') ? 'echo %s | /usr/bin/nc -G 0 %s %s' :
   \ executable('socat') ? 'echo %s | socat - TCP4:%s:%s' :
@@ -19,6 +17,14 @@ function! s:define_commands() abort
   command! -buffer UnwatchAndRunRSpec call s:unwatch_and_run_rspec()
 endfunction
 
+function! s:rspec_daemon_host() abort
+  return get(b:, 'rspec_daemon_host', get(g:, 'rspec_daemon_host', '0.0.0.0'))
+endfunction
+
+function! s:rspec_daemon_port() abort
+  return get(b:, 'rspec_daemon_port', get(g:, 'rspec_daemon_port', 3002))
+endfunction
+
 function! s:make_request(on_line, file) abort
   if a:on_line
     return printf('%s:%s', a:file, line('.'))
@@ -29,7 +35,7 @@ endfunction
 
 " TODO: Send a request using "+channel".
 function! s:send_request(request) abort
-  let l:cmd = printf(s:cmdfmt, shellescape(a:request), shellescape(s:host), shellescape(s:port))
+  let l:cmd = printf(s:cmdfmt, shellescape(a:request), shellescape(s:rspec_daemon_host()), shellescape(s:rspec_daemon_port()))
 
   call job_start(['sh', '-c', l:cmd])
 endfunction
