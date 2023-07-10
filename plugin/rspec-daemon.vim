@@ -38,7 +38,11 @@ endfunction
 function! s:send_request(request) abort
   let l:cmd = printf(s:cmdfmt, shellescape(a:request), shellescape(s:rspec_daemon_host()), shellescape(s:rspec_daemon_port()))
 
-  call job_start(['sh', '-c', l:cmd])
+  if has('job')
+    call job_start(['sh', '-c', l:cmd])
+  else
+    call system(l:cmd)
+  endif
 endfunction
 
 function! s:run_rspec(on_line, ...) abort
