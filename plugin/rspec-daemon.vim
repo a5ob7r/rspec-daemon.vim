@@ -27,7 +27,6 @@ function! s:make_request(on_line, file) abort
   endif
 endfunction
 
-" TODO: Send a request using "+job".
 " TODO: Send a request using "+channel".
 function! s:send_request(request) abort
   let l:cmd = printf(s:cmdfmt, shellescape(a:request), shellescape(s:host), shellescape(s:port))
