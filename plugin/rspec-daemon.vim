@@ -1,7 +1,11 @@
-" This requires "socat" to communicate with rspec-daemon.
+" This requires "nc" or "socat" to communicate with rspec-daemon.
 
 let s:host = '0.0.0.0'
 let s:port = 3002
+let s:cmdfmt =
+  \ has('osxdarwin') ? 'echo %s | /usr/bin/nc -G 0 %s %s' :
+  \ executable('socat') ? 'echo %s | socat - TCP4:%s:%s' :
+  \ 'echo %s | nc -N %s %s'
 
 augroup RSPEC-DAEMON
   autocmd!
@@ -26,7 +30,7 @@ endfunction
 " TODO: Send a request using "+job".
 " TODO: Send a request using "+channel".
 function! s:send_request(request) abort
-  let l:cmd = printf('echo %s | socat - TCP4:%s:%s', shellescape(a:request), shellescape(s:host), shellescape(s:port))
+  let l:cmd = printf(s:cmdfmt, shellescape(a:request), shellescape(s:host), shellescape(s:port))
 
   call job_start(['sh', '-c', l:cmd])
 endfunction
