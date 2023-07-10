@@ -67,8 +67,6 @@ function! s:find_and_run_rspec(on_line, file) abort
 endfunction
 
 function! s:watch_and_run_rspec(on_line) abort
-  call s:unwatch_and_run_rspec()
-
   augroup WATCH_AND_RUN_RSPEC
     autocmd!
 
