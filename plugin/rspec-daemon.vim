@@ -2,6 +2,12 @@
 "
 " TODO: Send a request using a Vim native way such as "+channel".
 
+if get(g:, 'rspec_daemon_loaded', 0)
+  finish
+endif
+
+let g:rspec_daemon_loaded = 1
+
 let s:cmdfmt =
   \ has('osxdarwin') ? 'echo %s | /usr/bin/nc -G 0 %s %s' :
   \ executable('socat') ? 'echo %s | socat - TCP4:%s:%s' :
