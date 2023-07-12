@@ -7,7 +7,7 @@ let s:cmdfmt =
   \ executable('socat') ? 'echo %s | socat - TCP4:%s:%s' :
   \ 'echo %s | nc -N %s %s'
 
-augroup RSPEC-DAEMON
+augroup RSPEC_DAEMON_COMMANDS
   autocmd!
   autocmd FileType ruby,rspec.ruby call s:define_commands()
   autocmd BufRead,BufNewFile *_spec.rb call s:define_commands()
