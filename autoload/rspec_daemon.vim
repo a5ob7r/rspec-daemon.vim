@@ -50,9 +50,9 @@ function! s:find_and_run_rspec(on_line, file) abort
   let l:spec =
     \ a:file =~# '^spec/.\+_spec.rb$' ? a:file :
     \ a:file =~# '^app/controllers/.\+_controller.rb$' ? substitute(a:file, '^app/controllers/\(.\+\)_controller.rb$', 'spec/requests/\1_spec.rb', '') :
-    \ a:file =~# '^app/models/.\+.rb$' ? substitute(a:file, '^app/models/\(.\+\).rb$', 'spec/models/\1_spec.rb', '')
-    \ a:file =~# '^lib/.\+.rb$' ? substitute(a:file, '^lib/\(.\+\).rb$', 'spec/\1_spec.rb', '')
-    \ : ''
+    \ a:file =~# '^app/models/.\+.rb$' ? substitute(a:file, '^app/models/\(.\+\).rb$', 'spec/models/\1_spec.rb', '') :
+    \ a:file =~# '^lib/.\+.rb$' ? substitute(a:file, '^lib/\(.\+\).rb$', 'spec/\1_spec.rb', '') :
+    \ ''
 
   if filereadable(l:spec)
     call rspec_daemon#run_rspec(a:on_line, l:spec)
