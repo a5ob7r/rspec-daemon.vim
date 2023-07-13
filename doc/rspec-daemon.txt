@@ -21,6 +21,9 @@ comfortable development with Vim and rspec-daemon.
 ==============================================================================
 REQUIREMENTS					*rspec-daemon-requirements*
 
+- rspec-daemon gem
+    - This plugin doesn't know how to start a rspec-daemon process.
+    - This plugin assumes that a process of rspec-daemon is already running.
 - nc(1) or socat(1) to communicate with TCP ports.
 
 ==============================================================================

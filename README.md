@@ -4,6 +4,9 @@ A Vim plugin for [rspec-daemon](https://github.com/asonas/rspec-daemon) gem.
 
 ## Requirements
 
+- `rspec-daemon` gem
+    - This plugin doesn't know how to start a rspec-daemon process.
+    - This plugin assumes that a process of rspec-daemon is already running.
 - `nc` or `socat` to communicate with rspec-daemon.
 
 ## Installation
