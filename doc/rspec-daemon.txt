@@ -1,6 +1,18 @@
 *rspec-daemon.txt*	A Vim plugin for rspec-daemon
 
 ==============================================================================
+CONTENTS						*rspec-daemon-contents*
+
+INTRODUCTION					|rspec-daemon-introduction|
+REQUIREMENTS					|rspec-daemon-requirements|
+INSTALLATION					|rspec-daemon-installation|
+USAGE						|rspec-daemon-usage|
+COMMAND						|rspec-daemon-command|
+OPTIONS						|rspec-daemon-options|
+TODO						|rspec-daemon-todo|
+ACKNOWLEDGEMENTS				|rspec-daemon-acknowledgements|
+
+==============================================================================
 INTRODUCTION					*rspec-daemon-introduction*
 
 This plugin provides some useful interfaces for rspec-daemon.
