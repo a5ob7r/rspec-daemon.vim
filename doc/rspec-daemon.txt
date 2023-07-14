@@ -95,7 +95,7 @@ COMMAND							*rspec-daemon-command*
 	|:WatchAndRunRSpec|.
 
 ==============================================================================
-OPTIONS
+OPTIONS							*rspec-daemon-options*
 
 							*g:rspec_daemon_host*
 							*b:rspec_daemon_host*
