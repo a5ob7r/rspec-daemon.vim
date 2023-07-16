@@ -135,7 +135,7 @@ This plugin is for the great gem, rspec-daemon.
 
 https://github.com/asonas/rspec-daemon
 
-And this plugin is inspired to vscode-rspec-daemon.
+And this plugin is inspired by vscode-rspec-daemon.
 
 https://github.com/tk0miya/vscode-rspec-daemon
 
