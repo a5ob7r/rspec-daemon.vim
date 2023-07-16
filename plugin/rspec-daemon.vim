@@ -7,7 +7,6 @@ let g:rspec_daemon_loaded = 1
 augroup RSPEC_DAEMON_COMMANDS
   autocmd!
   autocmd FileType ruby,rspec,rspec.ruby,ruby.rspec call s:define_commands()
-  autocmd BufRead,BufNewFile *_spec.rb call s:define_commands()
 augroup END
 
 function! s:define_commands() abort
