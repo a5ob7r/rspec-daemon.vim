@@ -127,6 +127,7 @@ g:rspec_daemon_port
 TODO							*rspec-daemon-todo*
 
 - Communicate with TCP ports using |channel|.
+- Support Windows.
 
 ==============================================================================
 ACKNOWLEDGEMENTS				*rspec-daemon-acknowledgements*
