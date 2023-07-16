@@ -15,12 +15,19 @@ function! s:rspec_daemon_port() abort
   return get(b:, 'rspec_daemon_port', get(g:, 'rspec_daemon_port', 3002))
 endfunction
 
-function! s:make_request(on_line, file) abort
-  if a:on_line
-    return printf('%s:%s', a:file, line('.'))
-  else
-    return a:file
-  endif
+function! s:append_line_number(filepath, number) abort
+  return empty(a:filepath) ? '' : printf('%s:%s', a:filepath, a:number)
+endfunction
+
+function! s:infer_spec_path(filepath)
+  let l:spec =
+    \ a:filepath =~# '^spec/.\+_spec.rb$' ? a:filepath :
+    \ a:filepath =~# '^app/controllers/.\+_controller.rb$' ? substitute(a:filepath, '^app/controllers/\(.\+\)_controller.rb$', 'spec/requests/\1_spec.rb', '') :
+    \ a:filepath =~# '^app/models/.\+.rb$' ? substitute(a:filepath, '^app/models/\(.\+\).rb$', 'spec/models/\1_spec.rb', '') :
+    \ a:filepath =~# '^lib/.\+.rb$' ? substitute(a:filepath, '^lib/\(.\+\).rb$', 'spec/\1_spec.rb', '') :
+    \ ''
+
+  return filereadable(l:spec) ? l:spec : ''
 endfunction
 
 function! s:send_request(request) abort
@@ -33,29 +40,14 @@ function! s:send_request(request) abort
   endif
 endfunction
 
-function! rspec_daemon#run_rspec(on_line, ...) abort
+function! rspec_daemon#run_rspec(on_line, arguments) abort
   let l:request =
-    \ a:0 >= 2 ? s:make_request(0, join(a:000)) :
-    \ a:0 == 1 ? s:make_request(a:on_line, a:1) :
-    \ s:make_request(a:on_line, expand('%'))
+    \ !empty(a:arguments) ? join(a:arguments) :
+    \ a:on_line ? s:append_line_number(s:infer_spec_path(expand('%')), line('.')) :
+    \ s:infer_spec_path(expand('%'))
 
-  call s:send_request(l:request)
-endfunction
-
-function! s:find_and_run_rspec(on_line, file) abort
-  if a:file !=# expand('%')
-    return
-  endif
-
-  let l:spec =
-    \ a:file =~# '^spec/.\+_spec.rb$' ? a:file :
-    \ a:file =~# '^app/controllers/.\+_controller.rb$' ? substitute(a:file, '^app/controllers/\(.\+\)_controller.rb$', 'spec/requests/\1_spec.rb', '') :
-    \ a:file =~# '^app/models/.\+.rb$' ? substitute(a:file, '^app/models/\(.\+\).rb$', 'spec/models/\1_spec.rb', '') :
-    \ a:file =~# '^lib/.\+.rb$' ? substitute(a:file, '^lib/\(.\+\).rb$', 'spec/\1_spec.rb', '') :
-    \ ''
-
-  if filereadable(l:spec)
-    call rspec_daemon#run_rspec(a:on_line, l:spec)
+  if !empty(l:request)
+    call s:send_request(l:request)
   endif
 endfunction
 
@@ -63,11 +55,7 @@ function! rspec_daemon#watch_and_run_rspec(on_line) abort
   augroup WATCH_AND_RUN_RSPEC
     autocmd!
 
-    if a:on_line
-      autocmd BufWritePost,FileWritePost *.rb call s:find_and_run_rspec(1, expand('<afile>'))
-    else
-      autocmd BufWritePost,FileWritePost *.rb call s:find_and_run_rspec(0, expand('<afile>'))
-    endif
+    execute printf("autocmd BufWritePost,FileWritePost *.rb if bufnr('%%') == expand('<abuf>') | call rspec_daemon#run_rspec(%d, []) | endif", a:on_line)
   augroup END
 endfunction
 
