@@ -66,7 +66,7 @@ And run the following command to stop the watching and running.
 COMMAND							*rspec-daemon-command*
 
 								*:RunRSpec*
-:RunRSpec[!] [FILES]
+:[range]RunRSpec[!] [FILES]
 	Send the request to the rspec-daemon to run specs specified by [FILES].
 
 	For example if [FILES] is as below,
@@ -90,6 +90,12 @@ COMMAND							*rspec-daemon-command*
 <
 	So you can run only specs on the current cursor or around it.
 
+	And when [range] is given and [!] and [FILES] are omitted, append each
+	line numbers in [range] concatinated by a colon to the request as
+	below.
+>
+	spec/a_spec.rb:10:11:12:13
+<
 							*:WatchAndRunRSpec*
 :WatchAndRunRSpec[!]
 	Watch any changes against the current file and send the request to the

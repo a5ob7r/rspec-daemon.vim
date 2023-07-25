@@ -66,6 +66,7 @@ endfunction
 function! rspec_daemon#run_rspec(arguments, context) abort
   let l:context =
     \ !empty(get(a:context, 'bang', '')) ? { 'ranges': [[line('.'), line('.')]] } :
+    \ get(a:context, 'count', -1) > -1 ? { 'ranges': [[a:context['line1'], a:context['line2']]] } :
     \ {}
 
   call s:run(a:arguments, l:context)

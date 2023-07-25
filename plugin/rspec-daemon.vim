@@ -10,7 +10,7 @@ augroup RSPEC_DAEMON_COMMANDS
 augroup END
 
 function! s:define_commands() abort
-  command! -buffer -bang -nargs=* -complete=file RunRSpec call rspec_daemon#run_rspec([<f-args>], { 'bang': <q-bang> })
+  command! -buffer -bang -range=% -nargs=* -complete=file RunRSpec call rspec_daemon#run_rspec([<f-args>], { 'bang': <q-bang>, 'line1': <line1>, 'line2': <line2>, 'count': <count> })
   command! -buffer -bang WatchAndRunRSpec call rspec_daemon#watch_and_run_rspec(<bang>0)
   command! -buffer UnwatchAndRunRSpec call rspec_daemon#unwatch_and_run_rspec()
 endfunction
